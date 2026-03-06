@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title_block %}
+                GameRate
+            {% endblock %}
+        </title>
+    </head>
+
+    <body>
+        <div>
+            <p>Example link 1</p>
+            <p>Example link 2</p>
+            <p>Example link 3</p>
+        </div>
+
+        <hr>
+
+        <div>
+            {% block body_block %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
