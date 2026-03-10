@@ -7,6 +7,7 @@ class VideoGame(models.Model):
     release_year = models.IntegerField()
     developer = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
+    image = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.title
