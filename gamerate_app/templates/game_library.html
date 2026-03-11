@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title_block %}
+Video Game Library
+{% endblock %}
+
+{% block body_block %}
+<h1>Video Game Library</h1>
+
+<div style="flex-wrap:wrap;">
+    {% for game in games %}
+    <div>
+        <a href="{% url 'game_detail' game.id %}">
+            <img src="{{ game.image }}" alt="{{ game.title }}">
+            <h3>{{ game.title }}</h3>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

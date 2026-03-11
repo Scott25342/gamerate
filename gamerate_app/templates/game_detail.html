@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title_block %}{{ game.title }}{% endblock %}
+
+{% block body_block %}
+<div>
+    <h1>{{ game.title }}</h1>
+
+    <img src="{{ game.image }}" alt="{{ game.title }}">
+
+    <ul style="list-style:none;">
+        <li><strong>Genre:</strong> {{ game.genre }}</li>
+        {% if game.rating %}
+        <li><strong>Rating:</strong> {{ game.rating }}</li>
+        {% endif %}
+        <li><strong>Release Year:</strong> {{ game.release_year }}</li>
+        <li><strong>Developer:</strong> {{ game.developer }}</li>
+    </ul>
+    <p>{{ game.description }}</p>
+
+</div>
+{% endblock %}
