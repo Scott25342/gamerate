@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import VideoGame
+from .models import VideoGame, Review
 
 class VideoGameAdmin(admin.ModelAdmin):
     list_display = ('title', 'developer', 'release_year', 'thumbnail')
@@ -11,3 +11,10 @@ class VideoGameAdmin(admin.ModelAdmin):
         return ""
 
 admin.site.register(VideoGame, VideoGameAdmin)
+
+
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('user', 'game', 'rating', 'created_at')
+
+admin.site.register(Review, ReviewAdmin)
+

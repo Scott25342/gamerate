@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title_block %}
+Profile
+{% endblock %}
+
+{% block body_block %}
+
+<h1>Profile Page</h1>
+
+{% if user.is_authenticated %}
+
+<div style="display:flex">
+
+<div style="width:50%">
+
+<p><b>Username:</b> {{ user.username }}</p>
+<p><b>Email:</b> {{ user.email }}</p>
+
+<h3>My Ratings</h3>
+
+{% for r in reviews %}
+<p>
+{{ r.game.title }} - {{ r.rating }}
+<a href="{% url 'edit_review' r.id %}">Edit</a> 
+<a href="{% url 'delete_review' r.id %}">Delete</a>
+</p>
+{% endfor %}
+
+</div>
+
+<div style="width:50%">
+
+<h3>Top 5 Ratings</h3>
+
+{% for r in top_ratings %}
+<p>{{ r.game.title }}</p>
+{% endfor %}
+
+</div>
+
+</div>
+
+<hr>
+
+<h3>My Reviews</h3>
+
+{% for r in reviews %}
+<p>
+<b>{{ r.game.title }}</b><br>
+"{{ r.review_text }}"
+<a href="{% url 'edit_review' r.id %}">Edit</a> 
+<a href="{% url 'delete_review' r.id %}">Delete</a>
+</p>
+{% endfor %}
+
+{% else %}
+
+<p>You are not logged in.</p>
+<p>Please login or register to view your profile.</p>
+
+{% endif %}
+
+{% endblock %}

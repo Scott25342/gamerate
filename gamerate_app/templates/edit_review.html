@@ -1,0 +1,18 @@
+<h2>Edit Review</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<label>Rating</label>
+<input type="number" name="rating" value="{{ review.rating }}">
+
+<br>
+
+<label>Review</label>
+<textarea name="review_text">{{ review.review_text }}</textarea>
+
+<br>
+
+<button type="submit">Save</button>
+
+</form>
