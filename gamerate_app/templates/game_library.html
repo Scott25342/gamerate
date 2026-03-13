@@ -7,6 +7,12 @@ Video Game Library
 {% block body_block %}
 <h1>Video Game Library</h1>
 
+{% if user.is_staff %}
+<div style="margin-bottom:20px;">
+    <a href="{% url 'add_game' %}">Add New Game</a>
+</div>
+{% endif %}
+
 <div style="flex-wrap:wrap;">
     {% for game in games %}
     <div>
