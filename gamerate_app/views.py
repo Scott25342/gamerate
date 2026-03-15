@@ -2,12 +2,20 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
 from .models import VideoGame, Review
+from django.db.models import Count
 
 
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    top_game = VideoGame.objects.order_by("-rating").first()
+    most_popular = VideoGame.objects.annotate(num_reviews=Count('review')).order_by("-num_reviews").first()
+
+    context_dict = {
+        'best_rated_game': top_game,
+        'most_popular_game': most_popular
+    }
+    return render(request, 'home.html', context=context_dict)
 
 def game_detail(request, game_id):
     game = get_object_or_404(VideoGame, pk=game_id)
