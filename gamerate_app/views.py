@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.models import User
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .models import VideoGame, Review
 from django.db.models import Count
+from .forms import UserRegistrationForm, UserLoginForm
 
 
 
@@ -26,6 +29,57 @@ def game_library(request):
     return render(request, 'game_library.html', {'games': games})
 
 
+def register(request):
+    registered = False
+
+    if request.user.is_authenticated:
+        return redirect("home")
+
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data["password"])
+            user.save()
+            registered = True
+            form = UserRegistrationForm()
+    else:
+        form = UserRegistrationForm()
+
+    return render(request, "register.html", {"form": form, "registered": registered})
+
+
+def user_login(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+
+    form = UserLoginForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        username = form.cleaned_data["username"]
+        password = form.cleaned_data["password"]
+        user = authenticate(username=username, password=password)
+
+        if user and user.is_active:
+            login(request, user)
+            next_url = request.GET.get("next")
+            if next_url:
+                return redirect(next_url)
+            return redirect(reverse("home"))
+
+        form.add_error(None, "Invalid username or password.")
+
+    return render(request, "login.html", {"form": form})
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse("home"))
+
+
+@login_required
 def profile_page(request):
 
     reviews = []
@@ -42,6 +96,8 @@ def profile_page(request):
 
     return render(request, "profile.html", context)
 
+
+@login_required
 def delete_review(request, review_id):
 
     review = get_object_or_404(Review, id=review_id)
@@ -51,6 +107,8 @@ def delete_review(request, review_id):
 
     return redirect("profile")
 
+
+@login_required
 def edit_review(request, review_id):
 
     review = get_object_or_404(Review, id=review_id)
