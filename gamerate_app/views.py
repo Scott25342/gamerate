@@ -175,3 +175,14 @@ def add_game(request):
         return redirect("game_detail", game_id=game.id)
 
     return render(request, "add_game.html")
+
+def game_search(request):
+    query = request.GET.get('query', '').strip()
+
+    if query:
+        game = VideoGame.objects.filter(title__iexact=query).first()
+
+        if game:
+            return redirect('game_detail', game_id=game.id)
+        
+    return redirect('home')

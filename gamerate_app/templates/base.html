@@ -4,6 +4,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
         <title>
             {% block title_block %}
                 GameRate
@@ -12,8 +13,17 @@
     </head>
 
     <body>
-        <div>
-            <ul>
+        <nav>
+            <div class="logo">GameRate</div>
+
+            <div class="search">
+                <form method="GET" action="{% url 'game_search' %}">
+                    <input type="text" name="query" placeholder="Search for a game...">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+                
+            <ul class="menu">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'game_library' %}">Game Library</a></li>
 
@@ -24,12 +34,10 @@
                     <li><a href="{% url 'register' %}">Sign Up</a></li>
                     <li><a href="{% url 'login' %}">Login</a></li>
                 {% endif %}
-            </ul>
-        </div>
+            </ul>            
+        </nav>
 
-        <hr>
-
-        <div>
+        <div class="page-content">
             {% block body_block %}
             {% endblock %}
         </div>
