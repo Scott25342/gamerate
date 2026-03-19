@@ -18,7 +18,12 @@
 
             <div class="search">
                 <form method="GET" action="{% url 'game_search' %}">
-                    <input type="text" name="query" placeholder="Search for a game...">
+                    <input type="text" name="query" placeholder="Search for a game..." list="game-list" autocomplete="off">
+                        <datalist id="game-list">
+                            {% for title in all_game_titles %}
+                                <option value="{{ title }}">
+                            {% endfor %}
+                        </datalist>
                     <button type="submit">Search</button>
                 </form>
             </div>
