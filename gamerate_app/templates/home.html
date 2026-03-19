@@ -1,34 +1,40 @@
 {% extends 'base.html' %}
-
 {% block title_block %}
 Home
 {% endblock %}
 
 {% block body_block %}
-<h2>Best Rated Game</h2>
+<div class="home-page">
 
+    <div class="game-align">
 
-<img src="{{ best_rated_game.image }}" width="200">
+        <div class="align">
+            <h1 >Best Rated Game</h1>
+            <div class="all-info">
+                <img src="{{ best_rated_game.image }}" width="200" class="game-image">
+                <div class="game-info">
+                    <h2><a href="{% url 'game_detail' best_rated_game.id %}" class="game-link">{{ best_rated_game.title }} ({{ best_rated_game.release_year }})</a></h2>
+                    <p><strong>Genre:</strong> {{ best_rated_game.genre }}</p>
+                    <p><strong>Developer:</strong> {{ best_rated_game.developer }}</p>
+                    <p><strong>Average Rating:</strong> {{ best_rated_game.avg_rating|default:"No ratings yet" }}</p>
+                    <p><strong>Description:</strong> {{ best_rated_game.description }}</p>
+                </div>
+            </div>
+        </div>
 
-    <h2>{{ best_rated_game.title }} ({{ best_rated_game.release_year }})</h2>
-    <p><strong>Genre:</strong> {{ best_rated_game.genre }}</p>
-    <p><strong>Developer:</strong> {{ best_rated_game.developer }}</p>
-    <p><strong>Average Rating:</strong> {{ best_rated_game.avg_rating|default:"No ratings yet" }}</p>
-
-    <p><strong>Description:</strong> {{ best_rated_game.description }}</p>
-
-
-
-<h2>Most Popular Game</h2>
-
-<img src="{{ most_popular_game.image }}" width="200">
-
-    <h2>{{ most_popular_game.title }} ({{ most_popular_game.release_year }})</h2>
-    <p><strong>Genre:</strong> {{most_popular_game.genre }}</p>
-    <p><strong>Developer:</strong> {{ most_popular_game.developer }}</p>
-    <p><strong>Average Rating:</strong> {{ most_popular_game.avg_rating|default:"No ratings yet" }}</p>
-
-    <p><strong>Description:</strong> {{ most_popular_game.description }}</p>
-
-
+        <div class="align">
+            <h1>Most Popular Game</h1>
+            <div class="all-info">
+            <img src="{{ most_popular_game.image }}" width="200" class="game-image">
+                <div class="game-info">
+                    <h2> <a href="{% url 'game_detail' most_popular_game.id %}" class="game-link">{{ most_popular_game.title }} ({{ most_popular_game.release_year }})</a></h2>
+                    <p><strong>Genre:</strong> {{most_popular_game.genre }}</p>
+                    <p><strong>Developer:</strong> {{ most_popular_game.developer }}</p>
+                    <p><strong>Average Rating:</strong> {{ most_popular_game.avg_rating|default:"No ratings yet" }}</p>
+                    <p><strong>Description:</strong> {{ most_popular_game.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
