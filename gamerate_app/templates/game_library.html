@@ -5,22 +5,24 @@ Video Game Library
 {% endblock %}
 
 {% block body_block %}
-<h1>Video Game Library</h1>
+<div class="library-container">
+    <h3>Video Game Library</h3>
 
-{% if user.is_staff %}
-<div style="margin-bottom:20px;">
-    <a href="{% url 'add_game' %}">Add New Game</a>
-</div>
-{% endif %}
-
-<div style="flex-wrap:wrap;">
-    {% for game in games %}
-    <div>
-        <a href="{% url 'game_detail' game.id %}">
-            <img src="{{ game.image }}" alt="{{ game.title }}">
-            <h3>{{ game.title }}</h3>
-        </a>
+    {% if user.is_staff %}
+    <div class="add-game-button">
+        <a href="{% url 'add_game' %}" class="button-link">Add New Game</a>
     </div>
-    {% endfor %}
+    {% endif %}
+
+    <div class="games-container">
+        {% for game in games %}
+        <div class="game-item">
+            <a href="{% url 'game_detail' game.id %}" class="game-link">
+                <img src="{{ game.image }}" alt="{{ game.title }}">
+                <h3>{{ game.title }}</h3>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

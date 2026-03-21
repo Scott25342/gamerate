@@ -3,26 +3,30 @@
 {% block title_block %}{{ game.title }}{% endblock %}
 
 {% block body_block %}
-<div>
-    <h1>{{ game.title }}</h1>
+<div class="detail-container">
+    <div class="detail-item">
+        <h3>{{ game.title }}</h3>
 
-    <img src="{{ game.image }}" alt="{{ game.title }}">
+        <img src="{{ game.image }}" alt="{{ game.title }}">
+        <br><br>
 
-    <ul>
-        <li><strong>Genre:</strong> {{ game.genre }}</li>
-        {% if game.rating %}
-        <li><strong>Rating:</strong> {{ game.rating }}</li>
+        <ul>
+            <li><strong>Genre:</strong> {{ game.genre }}</li>
+            {% if game.rating %}
+            <li><strong>Rating:</strong> {{ game.rating }}</li>
+            {% endif %}
+            <li><strong>Release Year:</strong> {{ game.release_year }}</li>
+            <li><strong>Developer:</strong> {{ game.developer }}</li>
+        </ul>
+        <p>{{ game.description }}</p>
+
+        {% if user.is_staff %}
+        <div>
+            <a href="{% url 'edit_game' game.id %}" class="button-link">Edit Game</a>
+            <br>
+            <a href="{% url 'delete_game' game.id %}" class="button-link">Delete Game</a>
+        </div>
         {% endif %}
-        <li><strong>Release Year:</strong> {{ game.release_year }}</li>
-        <li><strong>Developer:</strong> {{ game.developer }}</li>
-    </ul>
-    <p>{{ game.description }}</p>
-
-    {% if user.is_staff %}
-    <div>
-        <a href="{% url 'edit_game' game.id %}">Edit Game</a>
-        <a href="{% url 'delete_game' game.id %}">Delete Game</a>
     </div>
-    {% endif %}
 </div>
 {% endblock %}
