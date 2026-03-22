@@ -13,7 +13,7 @@ Home
             <div class="all-info">
                 <img src="{{ best_rated_game.image }}" width="200" class="game-image">
                 <div class="game-info">
-                    <h2><a href="{% url 'game_detail' best_rated_game.id %}" class="game-link">{{ best_rated_game.title }} ({{ best_rated_game.release_year }})</a></h2>
+                    <h2><a href="{% url 'game_detail' game_id=best_rated_game.id %}" class="game-link">{{ best_rated_game.title }} ({{ best_rated_game.release_year }})</a></h2>
                     <p><strong>Genre:</strong> {{ best_rated_game.genre }}</p>
                     <p><strong>Developer:</strong> {{ best_rated_game.developer }}</p>
                     <p><strong>Average Rating:</strong> {{ best_rated_game.avg_rating|default:"No ratings yet" }}</p>
@@ -27,7 +27,7 @@ Home
             <div class="all-info">
             <img src="{{ most_popular_game.image }}" width="200" class="game-image">
                 <div class="game-info">
-                    <h2> <a href="{% url 'game_detail' most_popular_game.id %}" class="game-link">{{ most_popular_game.title }} ({{ most_popular_game.release_year }})</a></h2>
+                    <h2> <a href="{% url 'game_detail' game_id=most_popular_game.id %}" class="game-link">{{ most_popular_game.title }} ({{ most_popular_game.release_year }})</a></h2>
                     <p><strong>Genre:</strong> {{most_popular_game.genre }}</p>
                     <p><strong>Developer:</strong> {{ most_popular_game.developer }}</p>
                     <p><strong>Average Rating:</strong> {{ most_popular_game.avg_rating|default:"No ratings yet" }}</p>
