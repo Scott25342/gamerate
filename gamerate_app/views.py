@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import VideoGame, Review
 from django.db.models import Count
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, ReviewForm
 
 
 
@@ -20,13 +20,37 @@ def home(request):
     }
     return render(request, 'home.html', context=context_dict)
 
+@login_required
 def game_detail(request, game_id):
     game = get_object_or_404(VideoGame, pk=game_id)
-    return render(request, 'game_detail.html', {'game': game})
+    reviews = Review.objects.filter(game=game).order_by('-created_at')
+
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.game = game
+            review.save()
+            return redirect('game_detail', game_id=game_id)
+    else:
+        form = ReviewForm
+
+    return render(request, 'game_detail.html', {'game': game, 'reviews': reviews, 'form': form})
 
 def game_library(request):
     games = VideoGame.objects.all()
-    return render(request, 'game_library.html', {'games': games})
+    genres = VideoGame.objects.values_list('genre', flat=True).distinct()
+    genre_filter = request.GET.get('genre')
+
+    if genre_filter:
+        games = games.filter(genre=genre_filter)
+
+    context = {
+        'games': games,
+        'genres': genres
+    }
+    return render(request, 'game_library.html', context)
 
 
 def register(request):

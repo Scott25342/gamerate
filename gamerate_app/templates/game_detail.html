@@ -27,6 +27,30 @@
             <a href="{% url 'delete_game' game.id %}" class="button-link">Delete Game</a>
         </div>
         {% endif %}
+
+        <h3>Reviews</h3>
+        <div>
+            {% for review in reviews %}
+                <div>
+                    <strong>{{ review.user.username }}</strong> rated it <strong>{{ review.rating }}/10</strong>
+                    <p>{{ review.review_text }}</p>
+                    <small>Posted on {{ review.created_at|date:"d M, Y" }}</small>
+                </div>
+            {% empty %}
+                <p>No reviews yet. Be the first to review!</p>
+            {% endfor %}
+        </div>
+
+        <h3>Leave a Review</h3>
+        {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit Review</button>
+        </form>
+        {% else %}
+        <p><a href="{% url 'login' %}">Log in</a> to leave a review.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

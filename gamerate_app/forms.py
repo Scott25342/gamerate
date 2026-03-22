@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from .models import Review
 
 
 class UserRegistrationForm(forms.ModelForm):
@@ -24,3 +25,12 @@ class UserRegistrationForm(forms.ModelForm):
 class UserLoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput())
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['rating', 'review_text']
+        widgets = {
+            'rating': forms.NumberInput(attrs={'min': 1, 'max': 10}),
+            'review_text': forms.Textarea(attrs={'rows': 1}),
+        }
