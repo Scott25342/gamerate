@@ -1,7 +1,17 @@
-<h2>Delete Game</h2>
-<p>Are you sure you want to delete "{{ game.title }}"?</p>
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-    <a href="{% url 'game_detail' game.id %}">Cancel</a>
-</form>
+{% extends 'base.html' %}
+
+{% block title_block %}Delete Game{% endblock %}
+
+{% block body_block %}
+<h1 class="page-title">Delete Game</h1>
+<div class="card danger-card">
+    <p>Are you sure you want to delete "{{ game.title }}"?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="inline-actions">
+            <button type="submit">Yes, Delete</button>
+            <a href="{% url 'game_detail' game.id %}" class="button-link">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

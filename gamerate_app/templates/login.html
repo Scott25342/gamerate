@@ -5,12 +5,16 @@ Login
 {% endblock %}
 
 {% block body_block %}
-<h1>Login to GameRate</h1>
+<div class="auth-page">
+    <h1 class="page-title">Login to GameRate</h1>
 
-<form id="login_form" method="post" action="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    {{ form.as_p }}
-    <input type="submit" value="Login" />
-</form>
+    <div class="card auth-card">
+        <form id="login_form" method="post" action="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {{ form.as_p }}
+            <input type="submit" value="Login" />
+        </form>
+    </div>
+</div>
 {% endblock %}

@@ -3,31 +3,33 @@
 {% block title_block %}Add New Game{% endblock %}
 
 {% block body_block %}
-<h2>Add New Game</h2>
+<h1 class="page-title">Add New Game</h1>
 
-<form method="POST">
-    {% csrf_token %}
-    <label>Title:</label>
-    <input type="text" name="title" required><br>
+<div class="card form-card">
+    <form method="POST">
+        {% csrf_token %}
+        <label>Title:</label>
+        <input type="text" name="title" required>
 
-    <label>Genre:</label>
-    <input type="text" name="genre"><br>
+        <label>Genre:</label>
+        <input type="text" name="genre">
 
-    <label>Rating:</label>
-    <input type="number" name="rating" min="0" max="10"><br>
+        <label>Rating:</label>
+        <input type="number" name="rating" min="0" max="10">
 
-    <label>Release Year:</label>
-    <input type="number" name="release_year"><br>
+        <label>Release Year:</label>
+        <input type="number" name="release_year">
 
-    <label>Developer:</label>
-    <input type="text" name="developer"><br>
+        <label>Developer:</label>
+        <input type="text" name="developer">
 
-    <label>Description:</label>
-    <textarea name="description"></textarea><br>
+        <label>Description:</label>
+        <textarea name="description"></textarea>
 
-    <label>Image URL:</label>
-    <input type="text" name="image"><br>
+        <label>Image URL:</label>
+        <input type="text" name="image">
 
-    <button type="submit" class="btn btn-primary">Add Game</button>
-</form>
+        <button type="submit">Add Game</button>
+    </form>
+</div>
 {% endblock %}

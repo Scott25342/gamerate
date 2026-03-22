@@ -1,18 +1,21 @@
-<h2>Edit Review</h2>
+{% extends 'base.html' %}
 
-<form method="POST">
-{% csrf_token %}
+{% block title_block %}Edit Review{% endblock %}
 
-<label>Rating</label>
-<input type="number" name="rating" value="{{ review.rating }}">
+{% block body_block %}
+<h1 class="page-title">Edit Review</h1>
 
-<br>
+<div class="card form-card">
+	<form method="POST">
+		{% csrf_token %}
 
-<label>Review</label>
-<textarea name="review_text">{{ review.review_text }}</textarea>
+		<label>Rating</label>
+		<input type="number" name="rating" value="{{ review.rating }}">
 
-<br>
+		<label>Review</label>
+		<textarea name="review_text">{{ review.review_text }}</textarea>
 
-<button type="submit">Save</button>
-
-</form>
+		<button type="submit">Save</button>
+	</form>
+</div>
+{% endblock %}

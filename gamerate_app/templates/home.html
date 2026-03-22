@@ -10,6 +10,7 @@ Home
 
         <div class="align">
             <h1 >Best Rated Game</h1>
+            {% if best_rated_game %}
             <div class="all-info">
                 <img src="{{ best_rated_game.image }}" width="200" class="game-image">
                 <div class="game-info">
@@ -20,10 +21,14 @@ Home
                     <p><strong>Description:</strong> {{ best_rated_game.description }}</p>
                 </div>
             </div>
+            {% else %}
+            <p>No games available yet.</p>
+            {% endif %}
         </div>
 
         <div class="align">
             <h1>Most Popular Game</h1>
+            {% if most_popular_game %}
             <div class="all-info">
             <img src="{{ most_popular_game.image }}" width="200" class="game-image">
                 <div class="game-info">
@@ -34,6 +39,9 @@ Home
                     <p><strong>Description:</strong> {{ most_popular_game.description }}</p>
                 </div>
             </div>
+            {% else %}
+            <p>No games available yet.</p>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,26 +1,34 @@
-<h2>Edit Game</h2>
+{% extends 'base.html' %}
+
+{% block title_block %}Edit Game{% endblock %}
+
+{% block body_block %}
+<h1 class="page-title">Edit Game</h1>
+<div class="card form-card">
 <form method="POST">
     {% csrf_token %}
     <label>Title:</label>
-    <input type="text" name="title" value="{{ game.title }}"><br>
+    <input type="text" name="title" value="{{ game.title }}">
 
     <label>Genre:</label>
-    <input type="text" name="genre" value="{{ game.genre }}"><br>
+    <input type="text" name="genre" value="{{ game.genre }}">
 
     <label>Rating:</label>
-    <input type="number" name="rating" value="{{ game.rating }}"><br>
+    <input type="number" name="rating" value="{{ game.rating }}">
 
     <label>Release Year:</label>
-    <input type="number" name="release_year" value="{{ game.release_year }}"><br>
+    <input type="number" name="release_year" value="{{ game.release_year }}">
 
     <label>Developer:</label>
-    <input type="text" name="developer" value="{{ game.developer }}"><br>
+    <input type="text" name="developer" value="{{ game.developer }}">
 
     <label>Description:</label>
-    <textarea name="description">{{ game.description }}</textarea><br>
+    <textarea name="description">{{ game.description }}</textarea>
 
     <label>Image URL:</label>
-    <input type="text" name="image" value="{{ game.image }}"><br>
+    <input type="text" name="image" value="{{ game.image }}">
 
     <button type="submit">Save</button>
 </form>
+</div>
+{% endblock %}

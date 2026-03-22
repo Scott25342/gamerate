@@ -6,13 +6,13 @@ Profile
 
 {% block body_block %}
 
-<h1>Profile Page</h1>
+<h1 class="page-title">Profile Page</h1>
 
 {% if user.is_authenticated %}
 
-<div style="display:flex">
+<div class="profile-layout">
 
-<div style="width:50%">
+<div class="profile-column card">
 
 <p><b>Username:</b> {{ user.username }}</p>
 <p><b>Email:</b> {{ user.email }}</p>
@@ -20,7 +20,7 @@ Profile
 <h3>My Ratings</h3>
 
 {% for r in reviews %}
-<p>
+<p class="review-row">
 {{ r.game.title }} - {{ r.rating }}
 <a href="{% url 'edit_review' r.id %}">Edit</a> 
 <a href="{% url 'delete_review' r.id %}">Delete</a>
@@ -29,7 +29,7 @@ Profile
 
 </div>
 
-<div style="width:50%">
+<div class="profile-column card">
 
 <h3>Top 5 Ratings</h3>
 
@@ -41,18 +41,20 @@ Profile
 
 </div>
 
-<hr>
+<div class="section-spacer card">
 
 <h3>My Reviews</h3>
 
 {% for r in reviews %}
-<p>
+<p class="review-row">
 <b>{{ r.game.title }}</b><br>
 "{{ r.review_text }}"
 <a href="{% url 'edit_review' r.id %}">Edit</a> 
 <a href="{% url 'delete_review' r.id %}">Delete</a>
 </p>
 {% endfor %}
+
+</div>
 
 {% else %}
 
