@@ -4,19 +4,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .models import VideoGame, Review
-from django.db.models import Count
+from django.db.models import Avg, Count
 from .forms import UserRegistrationForm, UserLoginForm, ReviewForm
 
 
 
 # Create your views here.
 def home(request):
-    top_game = VideoGame.objects.order_by("-rating").first()
-    most_popular = VideoGame.objects.annotate(num_reviews=Count('review')).order_by("-num_reviews").first()
-
+    top_game = VideoGame.objects.annotate(avg_rating=Avg('review__rating')).order_by('-avg_rating').first()  
+    most_popular = VideoGame.objects.annotate(num_reviews=Count('review'),avg_rating=Avg('review__rating')).order_by("-num_reviews").first()
+        
     context_dict = {
         'best_rated_game': top_game,
-        'most_popular_game': most_popular
+        'most_popular_game': most_popular,
     }
     return render(request, 'home.html', context=context_dict)
 
