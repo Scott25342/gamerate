@@ -226,24 +226,22 @@ body {
     height: auto;
     border-radius: 10px;
 }
-/* Container holding all three columns */
+
 .right {
     display: flex;
     gap: 20px;
-    align-items: flex-start; /* aligns all columns to top */
+    align-items: flex-start; 
 }
 .detail-item, .right {
-    overflow: hidden; /* prevents cutting off content */
+    overflow: hidden; /
 }
 
-/* Column 1: Image */
 .image-column img {
-    width: 200px;        /* fixed width for image */
+    width: 200px;        
     height: auto;
     border-radius: 10px;
 }
 
-/* Column 2: Details */
 .details{
     background: rgba(255,255,255,0.05);
     padding: 15px;
@@ -251,12 +249,11 @@ body {
     padding-top: 25px;
     display: flex;
     flex-direction: column;
-    min-width: 200px;    /* ensures it doesn’t shrink too small */
+    min-width: 200px;  
 }
 
-/* Column 3: Description */
 .desc-column {
-    flex: 1;             /* takes all remaining space */
+    flex: 1;           
 }
 
 .review-box {

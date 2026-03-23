@@ -16,8 +16,8 @@ def populate():
             row['release_year'] = int(row['release_year']) if row['release_year'] else None
             game_data.append(row)
             game_obj, created = VideoGame.objects.update_or_create(
-            title=row['title'],  # use title as unique key
-            defaults=row          # update all other fields or insert new
+            title=row['title'],  
+            defaults=row          
             )
             print(f"{'Created' if created else 'Updated'}: {row['title']}")
     
