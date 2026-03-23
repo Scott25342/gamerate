@@ -6,19 +6,26 @@
 <div class="detail-container">
     <div class="detail-item">
         <h3>{{ game.title }}</h3>
-
-        <img src="{{ game.image }}" alt="{{ game.title }}">
-        <br><br>
-
-        <ul>
-            <li><strong>Genre:</strong> {{ game.genre }}</li>
-            {% if game.rating %}
-            <li><strong>Rating:</strong> {{ game.rating }}</li>
-            {% endif %}
-            <li><strong>Release Year:</strong> {{ game.release_year }}</li>
-            <li><strong>Developer:</strong> {{ game.developer }}</li>
-        </ul>
-        <p>{{ game.description }}</p>
+        <div class="right">
+                <div class="image-col">
+                    <img src="{{ game.image }}" alt="{{ game.title }}">
+                </div>
+                <div class="details">
+                    <ul>
+                        <li><strong>Genre:</strong> {{ game.genre }}</li>
+                        {% if game.rating %}
+                        <li><strong>Rating:</strong> {{ game.rating }}</li>
+                        {% endif %}
+                        <li><strong>Release Year:</strong> {{ game.release_year }}</li>
+                        <li><strong>Developer:</strong> {{ game.developer }}</li>
+                    
+                    </ul>
+                </div>
+            <div class="desc-col">         
+                <p class="game-desc">{{ game.description }}</p>
+            </div>            
+        </div> 
+ 
 
         {% if user.is_staff %}
         <div>
@@ -28,8 +35,19 @@
         </div>
         {% endif %}
 
+        <h3>Leave a Review</h3>
+        {% if user.is_authenticated %}
+        <form method="post" class="review-box">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit Review</button>
+        </form>
+        {% else %}
+        <p><a href="{% url 'login' %}">Log in</a> to leave a review.</p>
+        {% endif %}
+
         <h3>Reviews</h3>
-        <div>
+        <div class="review-box2">
             {% for review in reviews %}
                 <div>
                     <strong>{{ review.user.username }}</strong> rated it <strong>{{ review.rating }}/10</strong>
@@ -41,16 +59,8 @@
             {% endfor %}
         </div>
 
-        <h3>Leave a Review</h3>
-        {% if user.is_authenticated %}
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit Review</button>
-        </form>
-        {% else %}
-        <p><a href="{% url 'login' %}">Log in</a> to leave a review.</p>
-        {% endif %}
-    </div>
+
+        
+    </div>    
 </div>
 {% endblock %}

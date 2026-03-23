@@ -32,6 +32,7 @@ body {
     margin-right: 22px;
     font-size: 40px;
     font-weight: bold;
+
 }
 
 .menu {
@@ -215,6 +216,9 @@ body {
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column; 
+    gap: 20px;
 }
 
 .detail-item img {
@@ -222,6 +226,56 @@ body {
     height: auto;
     border-radius: 10px;
 }
+/* Container holding all three columns */
+.right {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start; /* aligns all columns to top */
+}
+.detail-item, .right {
+    overflow: hidden; /* prevents cutting off content */
+}
+
+/* Column 1: Image */
+.image-column img {
+    width: 200px;        /* fixed width for image */
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Column 2: Details */
+.details{
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 10px;
+    padding-top: 25px;
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;    /* ensures it doesn’t shrink too small */
+}
+
+/* Column 3: Description */
+.desc-column {
+    flex: 1;             /* takes all remaining space */
+}
+
+.review-box {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+}
+.review-box2 {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 15px;
+}
+.game-desc {
+    line-height: 1.6;
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 10px;
+}
+
 
 .page-title {
     font-size: 2rem;

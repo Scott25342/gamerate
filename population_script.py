@@ -15,9 +15,12 @@ def populate():
             row['rating'] = float(row['rating']) if row['rating'] else None
             row['release_year'] = int(row['release_year']) if row['release_year'] else None
             game_data.append(row)
+            game_obj, created = VideoGame.objects.update_or_create(
+            title=row['title'],  # use title as unique key
+            defaults=row          # update all other fields or insert new
+            )
+            print(f"{'Created' if created else 'Updated'}: {row['title']}")
     
-    for game in game_data:
-        VideoGame.objects.get_or_create(**game)
 
    #-----Test user-----
     user1,_ = User.objects.get_or_create(username="alice")
