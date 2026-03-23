@@ -20,7 +20,7 @@ Video Game Library
             <select name="genre" id="genre">
                 <option value="">All</option>
                 {% for g in genres %}
-                    <option value="{{ g}}" {% if request.GET.genre == g %}selected{% endif %}>{{ g }}</option>
+                    <option value="{{ g }}" {% if request.GET.genre == g %}selected{% endif %}>{{ g }}</option>
                 {% endfor %}
             </select>
 
@@ -33,7 +33,12 @@ Video Game Library
         <div class="game-item">
             <a href="{% url 'game_detail' game_id=game.id %}" class="game-link">
                 <img src="{{ game.image }}" alt="{{ game.title }}">
-                <h3>{{ game.title }}</h3>
+            <div style="display: flex; flex-direction: column;">
+                <p><strong>{{ game.title }}</strong></p>
+                <p><strong>Genre:</strong> {{ game.genre }}</p>
+                <p><strong>Release:</strong> {{ game.release_year }}</p>
+                <p><strong>Developer:</strong> {{ game.developer }}</p>
+            </div>
             </a>
         </div>
         {% endfor %}
