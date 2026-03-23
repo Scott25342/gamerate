@@ -221,6 +221,10 @@ body {
     gap: 20px;
 }
 
+.detail-item h2{
+    text-align: center;
+}
+
 .detail-item img {
     width: 200px;
     height: auto;
