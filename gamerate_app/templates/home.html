@@ -9,16 +9,18 @@ Home
     <div class="game-align">
 
         <div class="align">
-            <h1 >Best Rated Game</h1>
-            {% if best_rated_game %}
-            <div class="all-info">
-                <img src="{{ best_rated_game.image }}" width="200" class="game-image">
-                <div class="game-info">
-                    <h2><a href="{% url 'game_detail' game_id=best_rated_game.id %}" class="game-link">{{ best_rated_game.title }} ({{ best_rated_game.release_year }})</a></h2>
-                    <p><strong>Genre:</strong> {{ best_rated_game.genre }}</p>
-                    <p><strong>Developer:</strong> {{ best_rated_game.developer }}</p>
-                    <p><strong>Average Rating:</strong> {{ best_rated_game.avg_rating|floatformat:1|default:"No ratings yet" }}</p>
-                    <p><strong>Description:</strong> {{ best_rated_game.description }}</p>
+            <div id="best_rated_content">
+                <h1 >Best Rated Game</h1>
+                {% if best_rated_game %}
+                <div class="all-info" >
+                    <img src="{{ best_rated_game.image }}" width="200" class="game-image">
+                    <div class="game-info">
+                        <h2><a href="{% url 'game_detail' game_id=best_rated_game.id %}" class="game-link">{{ best_rated_game.title }} ({{ best_rated_game.release_year }})</a></h2>
+                        <p><strong>Genre:</strong> {{ best_rated_game.genre }}</p>
+                        <p><strong>Developer:</strong> {{ best_rated_game.developer }}</p>
+                        <p><strong>Average Rating:</strong> {{ best_rated_game.avg_rating|floatformat:1|default:"No ratings yet" }}</p>
+                        <p><strong>Description:</strong> {{ best_rated_game.description }}</p>
+                    </div>
                 </div>
             </div>
             {% else %}
@@ -27,16 +29,18 @@ Home
         </div>
 
         <div class="align">
-            <h1>Most Popular Game</h1>
-            {% if most_popular_game %}
-            <div class="all-info">
-            <img src="{{ most_popular_game.image }}" width="200" class="game-image">
-                <div class="game-info">
-                    <h2> <a href="{% url 'game_detail' game_id=most_popular_game.id %}" class="game-link">{{ most_popular_game.title }} ({{ most_popular_game.release_year }})</a></h2>
-                    <p><strong>Genre:</strong> {{most_popular_game.genre }}</p>
-                    <p><strong>Developer:</strong> {{ most_popular_game.developer }}</p>
-                    <p><strong>Average Rating:</strong> {{ most_popular_game.avg_rating|floatformat:1|default:"No ratings yet" }}</p>
-                    <p><strong>Description:</strong> {{ most_popular_game.description }}</p>
+            <div id="most_popular_content">
+                <h1>Most Popular Game</h1>
+                {% if most_popular_game %}
+                <div class="all-info" >
+                <img src="{{ most_popular_game.image }}" width="200" class="game-image">
+                    <div class="game-info">
+                        <h2> <a href="{% url 'game_detail' game_id=most_popular_game.id %}" class="game-link">{{ most_popular_game.title }} ({{ most_popular_game.release_year }})</a></h2>
+                        <p><strong>Genre:</strong> {{most_popular_game.genre }}</p>
+                        <p><strong>Developer:</strong> {{ most_popular_game.developer }}</p>
+                        <p><strong>Average Rating:</strong> {{ most_popular_game.avg_rating|floatformat:1|default:"No ratings yet" }}</p>
+                        <p><strong>Description:</strong> {{ most_popular_game.description }}</p>
+                    </div>
                 </div>
             </div>
             {% else %}
@@ -45,4 +49,24 @@ Home
         </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script>
+$(document).ready(function() {
+
+    function refreshContainer(selector) {
+        $(selector).load(window.location.href + ' ' + selector, function(response,status){
+            if(status === 'error'){
+                console.warn("failed to refresh")
+            }
+        });
+    }    
+    setInterval(function() {refreshContainer('#best_rated_content');}, 10000);
+    setInterval(function() {refreshContainer('#most_popular_content');}, 10000);
+
+    });
+</script>
 {% endblock %}
