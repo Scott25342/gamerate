@@ -24,6 +24,7 @@ def home(request):
 def game_detail(request, game_id):
     game = get_object_or_404(VideoGame, pk=game_id)
     reviews = Review.objects.filter(game=game).order_by('-created_at')
+    avg_rating = reviews.aggregate(avg=Avg('rating'))['avg']
 
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -36,7 +37,7 @@ def game_detail(request, game_id):
     else:
         form = ReviewForm
 
-    return render(request, 'game_detail.html', {'game': game, 'reviews': reviews, 'form': form})
+    return render(request, 'game_detail.html', {'game': game, 'reviews': reviews, 'form': form, 'avg_rating': avg_rating})
 
 def game_library(request):
     games = VideoGame.objects.all()

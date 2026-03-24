@@ -14,7 +14,7 @@
                     <ul>
                         <li><strong>Genre:</strong> {{ game.genre }}</li>
                         {% if game.rating %}
-                        <li><strong>Rating:</strong> {{ game.rating }}</li>
+                        <li><strong>Rating:</strong> {{ avg_rating|floatformat:1|default:"N/A" }}</li>
                         {% endif %}
                         <li><strong>Release Year:</strong> {{ game.release_year }}</li>
                         <li><strong>Developer:</strong> {{ game.developer }}</li>
