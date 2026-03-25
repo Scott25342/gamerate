@@ -17,13 +17,11 @@
             <div class="logo">GameRate</div>
 
             <div class="search">
-                <form method="GET" action="{% url 'game_search' %}">
-                    <input type="text" name="query" placeholder="Search for a game..." list="game-list" autocomplete="off">
-                        <datalist id="game-list">
-                            {% for title in all_game_titles %}
-                                <option value="{{ title }}">
-                            {% endfor %}
-                        </datalist>
+                <form method="GET" action="{% url 'game_search' %}" id="navbar-search-form">
+                    <div class="search-input-wrap">
+                    <input type="text" name="query" id="navbar-search-input" placeholder="Search for a game..." autocomplete="off">
+                    <div id="live-search-results" class="live-search-results" hidden></div>
+                    </div>
                     <button type="submit">Search</button>
                 </form>
             </div>
@@ -42,10 +40,138 @@
             </ul>            
         </nav>
 
+        <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="app-toast {% if message.tags %}{{ message.tags }}{% endif %}" data-toast>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
         <div class="page-content">
             {% block body_block %}
             {% endblock %}
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const toasts = document.querySelectorAll('[data-toast]');
+                toasts.forEach(function (toast, index) {
+                    setTimeout(function () {
+                        toast.classList.add('show');
+                    }, index * 120);
+
+                    setTimeout(function () {
+                        toast.classList.remove('show');
+                        setTimeout(function () {
+                            toast.remove();
+                        }, 250);
+                    }, 3500 + (index * 120));
+                });
+
+                document.addEventListener('submit', function (event) {
+                    const form = event.target.closest('form[data-confirm]');
+                    if (!form) {
+                        return;
+                    }
+
+                    const message = form.getAttribute('data-confirm') || 'Are you sure?';
+                    if (!window.confirm(message)) {
+                        event.preventDefault();
+                    }
+                });
+
+                const searchInput = document.getElementById('navbar-search-input');
+                const searchForm = document.getElementById('navbar-search-form');
+                const resultsContainer = document.getElementById('live-search-results');
+
+                if (!searchInput || !searchForm || !resultsContainer) {
+                    return;
+                }
+
+                let debounceTimer = null;
+                let currentController = null;
+
+                const clearResults = function () {
+                    resultsContainer.innerHTML = '';
+                    resultsContainer.hidden = true;
+                };
+
+                const renderResults = function (results) {
+                    if (!results.length) {
+                        clearResults();
+                        return;
+                    }
+
+                    resultsContainer.innerHTML = '';
+                    results.forEach(function (title) {
+                        const item = document.createElement('button');
+                        item.type = 'button';
+                        item.className = 'live-search-item';
+                        item.textContent = title;
+                        item.addEventListener('click', function () {
+                            searchInput.value = title;
+                            searchForm.submit();
+                        });
+                        resultsContainer.appendChild(item);
+                    });
+
+                    resultsContainer.hidden = false;
+                };
+
+                searchInput.addEventListener('input', function () {
+                    const query = searchInput.value.trim();
+
+                    if (debounceTimer) {
+                        clearTimeout(debounceTimer);
+                    }
+
+                    if (currentController) {
+                        currentController.abort();
+                    }
+
+                    if (query.length < 2) {
+                        clearResults();
+                        return;
+                    }
+
+                    debounceTimer = setTimeout(function () {
+                        currentController = new AbortController();
+
+                        fetch('{% url "game_search_suggestions" %}?q=' + encodeURIComponent(query), {
+                            signal: currentController.signal
+                        })
+                            .then(function (response) {
+                                if (!response.ok) {
+                                    throw new Error('Search failed');
+                                }
+                                return response.json();
+                            })
+                            .then(function (data) {
+                                renderResults(data.results || []);
+                            })
+                            .catch(function (error) {
+                                if (error.name !== 'AbortError') {
+                                    clearResults();
+                                }
+                            });
+                    }, 300);
+                });
+
+                document.addEventListener('click', function (event) {
+                    if (!event.target.closest('.search-input-wrap')) {
+                        clearResults();
+                    }
+                });
+
+                searchInput.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        clearResults();
+                    }
+                });
+            });
+        </script>
         {% block scripts %}
         {% endblock %}
     </body>

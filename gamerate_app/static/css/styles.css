@@ -27,6 +27,50 @@ body {
     margin: 0 auto;
 }
 
+.toast-container {
+    position: fixed;
+    top: 150px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 999;
+}
+
+.app-toast {
+    min-width: 240px;
+    max-width: 380px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #2b3d45;
+    border-left: 4px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.app-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.app-toast.success {
+    border-left-color: #0fbd5d;
+}
+
+.app-toast.error {
+    border-left-color: #ffbdbd;
+}
+
+.app-toast.warning {
+    border-left-color: white;
+}
+
+.app-toast.info {
+    border-left-color: white;
+}
+
 .logo {
     margin-right: 22px;
     font-size: 40px;
@@ -70,6 +114,10 @@ body {
     gap: 8px;
 }
 
+.search-input-wrap {
+    position: relative;
+}
+
 .search input {
     padding: 10px;
     margin-right: 0;
@@ -79,6 +127,37 @@ body {
     font-size: 16px;
     width: 320px;
     order: 1;
+}
+
+.live-search-results {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    max-height: 280px;
+    overflow-y: auto;
+    background: #2b3d45;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+.live-search-item {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: white;
+    text-align: left;
+    padding: 10px 12px;
+    cursor: pointer;
+}
+
+.live-search-item:hover {
+    background: rgba(255,255,255,0.08);
+    color: #0fbd5d;
 }
 
 .search input:hover {
@@ -435,6 +514,26 @@ input[type="submit"]:hover {
 
 .review-row {
     margin-bottom: 10px;
+}
+
+.inline-delete-form {
+    display: inline;
+    margin: 0;
+}
+
+.inline-delete-form button {
+    width: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+}
+
+.inline-delete-form button:hover {
+    color: #0fbd5d;
+    background: transparent;
 }
 
 .section-spacer {

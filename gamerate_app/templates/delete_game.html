@@ -6,7 +6,7 @@
 <h1 class="page-title">Delete Game</h1>
 <div class="card danger-card">
     <p>Are you sure you want to delete "{{ game.title }}"?</p>
-    <form method="POST">
+    <form method="POST" data-confirm="Delete '{{ game.title }}'? This cannot be undone.">
         {% csrf_token %}
         <div class="inline-actions">
             <button type="submit">Yes, Delete</button>

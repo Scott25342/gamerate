@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.http import JsonResponse
 from django.urls import reverse
 from .models import VideoGame, Review
 from django.db.models import Avg, Count
@@ -33,7 +35,9 @@ def game_detail(request, game_id):
             review.user = request.user
             review.game = game
             review.save()
+            messages.success(request, 'Review submitted successfully.')
             return redirect('game_detail', game_id=game_id)
+        messages.error(request, 'Could not submit your review. Please check the form.')
     else:
         form = ReviewForm
 
@@ -79,6 +83,7 @@ def register(request):
             user.save()
             registered = True
             form = UserRegistrationForm()
+            messages.success(request, "Account created successfully. You can now log in.")
     else:
         form = UserRegistrationForm()
 
@@ -98,6 +103,7 @@ def user_login(request):
 
         if user and user.is_active:
             login(request, user)
+            messages.success(request, "Logged in successfully.")
             next_url = request.GET.get("next")
             if next_url:
                 return redirect(next_url)
@@ -111,6 +117,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
+    messages.success(request, "Logged out successfully.")
     return redirect(reverse("home"))
 
 
@@ -137,8 +144,15 @@ def delete_review(request, review_id):
 
     review = get_object_or_404(Review, id=review_id)
 
+    if request.method != "POST":
+        messages.error(request, "Invalid delete request.")
+        return redirect("profile")
+
     if review.user == request.user:
         review.delete()
+        messages.success(request, "Review deleted successfully.")
+    else:
+        messages.error(request, "You cannot delete that review.")
 
     return redirect("profile")
 
@@ -155,6 +169,7 @@ def edit_review(request, review_id):
         review.rating = request.POST.get("rating")
         review.review_text = request.POST.get("review_text")
         review.save()
+        messages.success(request, "Review updated successfully.")
         return redirect("profile")
 
     return render(request, "edit_review.html", {"review": review})
@@ -172,6 +187,7 @@ def edit_game(request, game_id):
         game.description = request.POST.get("description")
         game.image = request.POST.get("image")
         game.save()
+        messages.success(request, "Game updated successfully.")
         return redirect("game_detail", game_id=game.id)
 
     return render(request, "edit_game.html", {"game": game})
@@ -183,6 +199,7 @@ def delete_game(request, game_id):
 
     if request.method == "POST":
         game.delete()
+        messages.success(request, "Game deleted successfully.")
         return redirect("game_library")
 
     return render(request, "delete_game.html", {"game": game})
@@ -207,6 +224,7 @@ def add_game(request):
             description=description,
             image=image
         )
+        messages.success(request, "Game added successfully.")
         return redirect("game_detail", game_id=game.id)
 
     return render(request, "add_game.html")
@@ -219,5 +237,23 @@ def game_search(request):
 
         if game:
             return redirect('game_detail', game_id=game.id)
+
+        messages.error(request, f'No game found for "{query}".')
+        return redirect('home')
         
     return redirect('home')
+
+
+def game_search_suggestions(request):
+    query = request.GET.get('q', '').strip()
+
+    if not query:
+        return JsonResponse({'results': []})
+
+    results = list(
+        VideoGame.objects.filter(title__icontains=query)
+        .values_list('title', flat=True)
+        .distinct()[:8]
+    )
+
+    return JsonResponse({'results': results})
