@@ -24,6 +24,14 @@ Video Game Library
                 {% endfor %}
             </select>
 
+            <label for="sort">Sort:</label>
+            <select name="sort" id="sort">
+                <option value="">Default</option>
+                <option value="name" {% if request.GET.sort == "name" %}selected{% endif %}>Name</option>
+                <option value="rating" {% if request.GET.sort == "rating" %}selected{% endif %}>Rating</option>
+                <option value="popularity" {% if request.GET.sort == "popularity" %}selected{% endif %}>Popularity</option>
+            </select>
+
             <button type="submit">Filter</button>
         </form>
     </div>

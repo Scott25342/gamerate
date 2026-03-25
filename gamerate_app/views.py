@@ -43,9 +43,19 @@ def game_library(request):
     games = VideoGame.objects.all()
     genres = VideoGame.objects.values_list('genre', flat=True).distinct()
     genre_filter = request.GET.get('genre')
+    sort_by = request.GET.get('sort')
 
     if genre_filter:
         games = games.filter(genre=genre_filter)
+
+    games = games.annotate(avg_rating=Avg('review__rating'), review_count=Count('review'))
+
+    if sort_by == 'name':
+        games = games.order_by('title')
+    elif sort_by == 'rating':
+        games = games.order_by('-avg_rating')
+    elif sort_by == 'popularity':
+        games = games.order_by('-review_count')
 
     context = {
         'games': games,

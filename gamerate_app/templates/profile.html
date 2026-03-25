@@ -22,8 +22,8 @@ Profile
 {% for r in reviews %}
 <p class="review-row">
 {{ r.game.title }} - {{ r.rating }}
-<a href="{% url 'edit_review' r.id %}">Edit</a> 
-<a href="{% url 'delete_review' r.id %}">Delete</a>
+<a href="{% url 'edit_review' r.id %}" class="button-link">Edit</a> 
+<a href="{% url 'delete_review' r.id %}" class="button-link">Delete</a>
 </p>
 {% endfor %}
 
@@ -49,8 +49,8 @@ Profile
 <p class="review-row">
 <b>{{ r.game.title }}</b><br>
 "{{ r.review_text }}"
-<a href="{% url 'edit_review' r.id %}">Edit</a> 
-<a href="{% url 'delete_review' r.id %}">Delete</a>
+<a href="{% url 'edit_review' r.id %}" class="button-link">Edit</a> 
+<a href="{% url 'delete_review' r.id %}" class="button-link">Delete</a>
 </p>
 {% endfor %}
 
