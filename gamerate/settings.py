@@ -25,7 +25,7 @@ SECRET_KEY = '8j(jd*1t27&zf#4va)*%$)13=m-^^qks!k#5^x0aitt^hah1by'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['scott856.pythonanywhere.com']
+ALLOWED_HOSTS = ['scott856.eu.pythonanywhere.com']
 
 
 # Application definition
